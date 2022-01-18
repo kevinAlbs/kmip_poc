@@ -9,3 +9,5 @@ vault write -format=json \
 
 jq -r .data.certificate < $CERT_PATH/credential.json > $CERT_PATH/cert.pem
 jq -r .data.private_key < $CERT_PATH/credential.json > $CERT_PATH/key.pem
+
+cat $CERT_PATH/cert.pem $CERT_PATH/key.pem > $CERT_PATH/key_with_cert.pem

@@ -1,0 +1,2 @@
+# Send data directly to the KMIP server.
+openssl s_client -connect localhost:5696 -cert ~/.hashicorp_vault/kmip_certs/cert.pem -key ~/.hashicorp_vault/kmip_certs/key.pem -CAfile ~/.hashicorp_vault/kmip_certs/ca.pem
