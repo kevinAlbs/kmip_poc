@@ -29,3 +29,27 @@ Success! Data written to: mymount/mypath
 
 Follow the KMIP tutorial to enable the KMIP secrets engine.
 https://learn.hashicorp.com/tutorials/vault/kmip-engine?in=vault/adp
+
+Verify the KMIP server works with a PyKMIP client:
+```
+% python example_client_vault.py
+created SecretData with UID=CV6WZY8yzIjK0q8EamrEjgUAKw6xOEsJ
+activate SecretData CV6WZY8yzIjK0q8EamrEjgUAKw6xOEsJ
+got SecretData with value b'\xe8\xb0\xdb\xb8H\x91\xad\x05\xbeJk\xba\xe9Z;\x07\x89\x12d\x12R\x86\xe3-\xceZo\x17\x06\xd2+\xc9Z\xe9\xaa\x0b\xb9\xbd\x1c\x17\xb9~\x8dg#\xa7\x82\xecl\x9c\x1a\xfaWn\xe5\x1cW\x8c\xe2\x9d\xeb\x8c\xcaTO\xd9\xc0!\xe9{\x86T\xb8\xdb\xa4J\x81\x14\xe1\x1c\x9a;\x95Z\xac:\xad>{\x14\x8fP>j\x19\xc7'
+```
+
+Verify the KMIP server works with the Go driver:
+```
+% ./test_with_godriver/run.sh 
+~/code/kmip_poc/test_with_godriver ~/code/kmip_poc
+CreateDataKey... begin
+Created key with a UUID: 9810165bb6b24c0b852634929928d244
+CreateDataKey... end
+Encrypt... begin
+Explicitly encrypted to ciphertext: {6 019810165bb6b24c0b852634929928d2440292cac8eece447c5139e070c985a3544ea39b467db29e05350440238092a6a988c4f855f4b617bf66042e45aa4262697b5b8eb777fdafcfc7b3935cbee691599d}
+Encrypt... end
+Decrypt... begin
+Explicitly decrypted to plaintext: "test"
+Decrypt... end
+~/code/kmip_poc
+```
