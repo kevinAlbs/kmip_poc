@@ -1,6 +1,6 @@
 . ./set_env.sh
 
-CERT_PATH=/Users/kevin.albertson/.hashicorp_vault/kmip_certs
+CERT_PATH=/Users/kevin.albertson/.secrets/hashicorp-vault/kmip_certs
 
 $VAULT_BIN write -format=json \
     kmip/scope/finance/role/accounting/credential/generate \
