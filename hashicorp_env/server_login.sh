@@ -1,2 +1,2 @@
 . ./set_env.sh
-vault login $(cat ~/.hashicorp_vault/root_token.txt)
+$VAULT_BIN login $(cat ~/.secrets/hashicorp-vault/initial_root_token.txt)

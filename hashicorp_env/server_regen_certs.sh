@@ -2,7 +2,7 @@
 
 CERT_PATH=/Users/kevin.albertson/.hashicorp_vault/kmip_certs
 
-vault write -format=json \
+$VAULT_BIN write -format=json \
     kmip/scope/finance/role/accounting/credential/generate \
     format=pem > $CERT_PATH/credential.json
 

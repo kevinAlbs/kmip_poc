@@ -1,5 +1,5 @@
 storage "raft" {
-  path    = "/Users/kevin.albertson/bin/hashicorp_vault_storage"
+  path    = "/Users/kevin.albertson/bin/hashicorp_vault/storage"
   node_id = "node1"
 }
 

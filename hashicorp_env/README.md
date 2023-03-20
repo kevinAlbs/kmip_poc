@@ -1,7 +1,31 @@
-# Test environment for Hashicorp Vault with KMIP
+# How to set up a test environment for Hashicorp Vault with KMIP
 
-I followed the Getting Started Deploy instructions to start a vault server.
+Download the Enterprise Binary of Vault following the "Prerequisites" here: https://developer.hashicorp.com/nomad/tutorials/enterprise/hashicorp-enterprise-license
+
+Follow the Getting Started Deploy instructions to start a vault server.
 https://learn.hashicorp.com/tutorials/vault/getting-started-deploy?in=vault/getting-started
 
-I followed the KMIP tutorial to enable the KMIP secrets engine.
+Verify enterprise license is loaded:
+```
+(.venv) kevin.albertson@M-PGWJ0XYHJF hashicorp_env % $VAULT_BIN  read sys/license/status
+WARNING! The following warnings were returned from Vault:
+
+  * time left on license is 658h2m26s
+
+Key                   Value
+---                   -----
+autoloaded            map[expiration_time:2023-04-17T00:00:00Z features:[DR Replication Namespaces KMIP Lease Count Quotas Key Management Secrets Engine Automated Snapshots Key Management Transparent Data Encryption] license_id:0981121a-2047-a230-67d2-678a12566aee performance_standby_count:0 start_time:2023-03-17T00:00:00Z termination_time:2023-04-17T00:00:00Z]
+autoloading_used      true
+persisted_autoload    map[expiration_time:2023-04-17T00:00:00Z features:[DR Replication Namespaces KMIP Lease Count Quotas Key Management Secrets Engine Automated Snapshots Key Management Transparent Data Encryption] license_id:0981121a-2047-a230-67d2-678a12566aee performance_standby_count:0 start_time:2023-03-17T00:00:00Z termination_time:2023-04-17T00:00:00Z]
+```
+
+Verify server works with the KV secrets engine:
+```
+(.venv) kevin.albertson@M-PGWJ0XYHJF kmip_poc % $VAULT_BIN secrets enable -path=mymount kv
+Success! Enabled the kv secrets engine at: mymount/
+(.venv) kevin.albertson@M-PGWJ0XYHJF kmip_poc % $VAULT_BIN kv put -mount mymount mypath mysecret=foobar
+Success! Data written to: mymount/mypath
+```
+
+Follow the KMIP tutorial to enable the KMIP secrets engine.
 https://learn.hashicorp.com/tutorials/vault/kmip-engine?in=vault/adp

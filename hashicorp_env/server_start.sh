@@ -1,2 +1,2 @@
 . ./set_env.sh
-vault server -config config.hcl -log-level=trace
+$VAULT_BIN server -config config.hcl -log-level=trace
