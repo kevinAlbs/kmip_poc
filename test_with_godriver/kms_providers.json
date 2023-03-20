@@ -1,0 +1,5 @@
+{
+    "kmip": {
+        "endpoint": "localhost:5696"
+    }
+}
