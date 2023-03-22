@@ -82,8 +82,7 @@ def createDataKey_flow ():
         # TODO: Hashicorp Vault seems to require that KMIP names are unique.
         # kmip.pie.exceptions.KmipOperationFailure: OPERATION_FAILED: INVALID_FIELD - result reason: ResultReasonInvalidField; additional message: object with "scope_text_names" name of "Secret Data" already exists
         random_name = "unique_name_" + base64.b64encode (os.urandom(5)).decode("utf8")
-        secretdata = objects.SecretData(kek, enums.SecretDataType.SEED, [
-                                        enums.CryptographicUsageMask.ENCRYPT, enums.CryptographicUsageMask.DECRYPT], random_name)
+        secretdata = objects.SecretData(kek, enums.SecretDataType.SEED, [], random_name)
         uid = client.register(secretdata)
         print(f"created SecretData with UID={uid}")
 
