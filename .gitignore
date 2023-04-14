@@ -1,3 +1,5 @@
 hashicorp/vault
 .DS_Store
 credential.json
+client.pkc
+mongo-truststore
