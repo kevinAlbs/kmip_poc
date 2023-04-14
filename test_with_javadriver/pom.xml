@@ -21,10 +21,13 @@
             <version>4.9.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-crypt -->
+
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-crypt</artifactId>
             <version>1.7.3</version>
+            <!-- 1.7.1 contains the bug of MONGOCRYPT-563. Uncomment to verify. -->
+            <!-- <version>1.7.1</version> -->
         </dependency>
 
     </dependencies>
