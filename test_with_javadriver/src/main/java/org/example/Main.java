@@ -5,6 +5,8 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.vault.ClientEncryption;
 import com.mongodb.client.vault.ClientEncryptions;
+import com.mongodb.crypt.capi.MongoCryptOptions;
+import com.sun.jna.Pointer;
 import org.bson.BsonBinary;
 
 import java.security.SecureRandom;
@@ -16,6 +18,8 @@ public class Main {
         byte[] localMasterKey = new byte[96];
         new SecureRandom().nextBytes(localMasterKey);
 
+        // using libmongocrypt version: 1.7.3
+        System.out.println ("using libmongocrypt version: " + com.mongodb.crypt.capi.CAPI.mongocrypt_version(Pointer.NULL).toString());
         Map<String, Map<String, Object>> kmsProviders = new HashMap<String, Map<String, Object>>() {{
             put("local", new HashMap<String, Object>() {{
                 put("key", localMasterKey);
