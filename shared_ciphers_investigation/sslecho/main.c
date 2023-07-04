@@ -86,6 +86,24 @@ SSL_CTX* create_context(bool isServer)
     return ctx;
 }
 
+int hello_cb(SSL *s, int *al, void *arg) {
+    (void) al; // unused
+    (void) arg; // unused
+    const unsigned char *out;
+    size_t outlen = SSL_client_hello_get0_ciphers (s, &out);
+    printf ("ClientHello included the following ciphers:\n");
+    // Each cipher suite is identified by two bytes.
+    for (size_t i = 0; i < outlen; i += 2) {
+         const SSL_CIPHER * got = SSL_CIPHER_find (s, out + i);
+         if (got == NULL) {
+            fprintf (stderr, "SSL_CIPHER_find returned NULL\n");
+            exit(EXIT_FAILURE);
+         }
+         printf ("-%s\n", SSL_CIPHER_get_name (got));
+    }
+    return 1; // Do not interrupt hello.
+}
+
 void configure_server_context(SSL_CTX *ctx)
 {
     /* Set the key and cert */
@@ -98,6 +116,8 @@ void configure_server_context(SSL_CTX *ctx)
         ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
+
+    SSL_CTX_set_client_hello_cb (ctx, hello_cb, NULL /* arg */);
 }
 
 void configure_client_context(SSL_CTX *ctx)
