@@ -86,12 +86,18 @@ SSL_CTX* create_context(bool isServer)
     return ctx;
 }
 
+// PySSLSocket models the `PySSLSocket` in cpython.
+typedef struct {
+    int client_id;
+} PySSLSocket;
+
 int hello_cb(SSL *s, int *al, void *arg) {
     (void) al; // unused
     (void) arg; // unused
     const unsigned char *out;
     size_t outlen = SSL_client_hello_get0_ciphers (s, &out);
-    printf ("ClientHello included the following ciphers:\n");
+    PySSLSocket* pysslsocket = (PySSLSocket*)SSL_get_ex_data (s, 0);
+    printf ("ClientHello for client with id: %d included the following ciphers:\n", pysslsocket->client_id);
     // Each cipher suite is identified by two bytes.
     for (size_t i = 0; i < outlen; i += 2) {
          const SSL_CIPHER * got = SSL_CIPHER_find (s, out + i);
@@ -227,6 +233,11 @@ int main(int argc, char **argv)
             /* Create server SSL structure using newly accepted client socket */
             ssl = SSL_new(ssl_ctx);
             SSL_set_fd(ssl, client_skt);
+
+            static int client_id = 0;
+            client_id++;
+            PySSLSocket pysslsocket = { .client_id = client_id };
+            SSL_set_ex_data (ssl, 0, (void*) &pysslsocket);
 
             /* Wait for SSL connection from the client */
             if (SSL_accept(ssl) <= 0) {
